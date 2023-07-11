@@ -1,6 +1,6 @@
 ;;; -*- Mode: Lisp; Syntax: Common-Lisp; Base: 10; Package: FMCS -*-
 
-(in-package "FMCS")
+(in-package :fmcs)
 
 ;;; --------------------------------------------------------------------------
 ;;;  Hand coded object standard-class  

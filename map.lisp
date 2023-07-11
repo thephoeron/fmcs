@@ -1,6 +1,6 @@
 ;;; -*- Mode: Lisp; Syntax: Common-Lisp; Base: 10; Package: FMCS -*-
 
-(in-package "FMCS")
+(in-package :fmcs)
 
 ;;           Copyright  1989, 1988, 1987, 1986, 1985 and 1984    BY
 ;;           G M D  
