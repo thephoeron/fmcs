@@ -4,6 +4,8 @@ This is the Flavors Meta-Class System (FMCS) for Common Lisp, an alternative to 
 
 ## TODO
 
+- [x] Extract FMCS from BABYLON
+- [ ] Clean up original source-code
 - [ ] Restore the original documentation
 - [ ] Integrate with BAPHOMET
 - [ ] Compile to Hyperlattices
