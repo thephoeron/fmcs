@@ -474,7 +474,7 @@
 ;;;     Basic slot access methods   
 ;;;------------------------------------------------------------------------
 
-(eval-when (compile eval load)
+(eval-when (:compile-toplevel :load-toplevel :execute)
   
   (defun gen-get-slot-method (index)
     (let ((call-next-parms '(mcs%caller mcs%next-methods mcs%args)))

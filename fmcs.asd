@@ -22,9 +22,9 @@
   :components ((:file "package")
                (:file "core")
                (:file "root")
-               (:file "map")
                (:file "methods")
                (:file "util")
+               (:file "map")
                (:file "fmcs")))
 
 (defsystem fmcs/test
