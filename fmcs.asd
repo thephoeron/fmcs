@@ -7,9 +7,13 @@
 (in-package :fmcs/asdf)
 
 (defsystem fmcs
-  :description "Flavors Meta-Class System (FMCS) for Common Lisp, an alternative to CLOS+MOP, restored from the CMU AI Repository."
+  :description "Flavors Meta-Class System (FMCS) for Demonic Metaprogramming in Common Lisp, an alternative to CLOS+MOP, restored from the CMU AI Repository."
   :author '("\"the Phoeron\" Colin J.E. Lupton <thephoeron@protonmail.com>"
-            "Jürgen Walther <juergen.walther@gmd.de>")
+            "Jürgen Walther <juergen.walther@gmd.de>"
+            "Pierre Cointe"
+            "Thomas Christaller"
+            "Harry Bretthauer"
+            "Jürgen Kopp")
   :maintainer "\"the Phoeron\" Colin J.E. Lupton <thephoeron@protonmail.com>"
   :mailto "thephoeron@protonmail.com"
   :homepage "https://thephoeron.github.io/fmcs/"
