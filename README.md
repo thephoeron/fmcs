@@ -26,5 +26,9 @@ Including code based on the work of:
 
 ## License
 
-Copyright &copy; 1987--2023, the Authors. Released under the MIT License.
+Copyright &copy; 1987&ndash;2023, the Authors. Released under the MIT License.
 Please see the [LICENSE](LICENSE) file for details.
+
+> **Restoration Note:** as explicitly noted in the original source-code, FMCS
+> was released by Jürgen Walthers under similar terms as the X Windows System,
+> X11, and the MIT License is the closest modern, standardized FOSS equivalent.
