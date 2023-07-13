@@ -230,7 +230,7 @@
   `(let ((method-entry (gethash ,a_selector (get-class-slot 'methods))))
      (if method-entry (method-entry-combined-method method-entry))))
 
-(declaim (inline STANDARD-MESSAGE-HANDLER))
+;(declaim (inline STANDARD-MESSAGE-HANDLER))
 
 (defun STANDARD-MESSAGE-HANDLER (self class-env inst-env selector args)
   (let ((combined-method (get-combined-method selector)))

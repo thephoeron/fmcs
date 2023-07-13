@@ -115,7 +115,7 @@
 (defmacro def$flavor (a_class a_list-of-instance-variables 
                               a_list-of-superclasses &rest options)
   `(progn
-     (eval-when (compile)
+     (eval-when (:compile-toplevel)
        (defvar ,a_class)    ; um compiler warnings zu unterdruecken
        (setq ,a_class
              (funcall (mcs-slot-value flavor-class (index-of-basicnew-fn))
@@ -128,7 +128,7 @@
                       :req-inst-vars ',(required-instance-variables options))))
      ; warum das im kontext von def-kb-konfiguration in gclisp komilierbar ist
      ; und die alte version mit let nicht, the lord knows
-     (eval-when (load)
+     (eval-when (:load-toplevel)
        (defvar ,a_class)
        (setq ,a_class 
              (send-fast (funcall (mcs-slot-value flavor-class (index-of-basicnew-fn))
@@ -140,7 +140,7 @@
                                  :own-slots ',a_list-of-instance-variables
                                  :req-inst-vars ',(required-instance-variables options))
                         :init)))
-     (eval-when (eval)
+     (eval-when (:execute)
        (defvar ,a_class)    ; um compiler warnings zu unterdruecken
        (let ((new-class (funcall (mcs-slot-value flavor-class (index-of-basicnew-fn))
                                  flavor-class
@@ -152,8 +152,7 @@
                                  :req-inst-vars ',(required-instance-variables options))))
          (if (flavorp ',a_class) 
            (redefine-class ,a_class new-class)
-           (setq ,a_class (send-fast new-class :init)))))
-     ))
+           (setq ,a_class (send-fast new-class :init)))))))
   
 
 ;;; Waehrend der Entwicklung eines Systems will man Flavors aendern, also
@@ -250,7 +249,7 @@
 
 ;;;(export 'compile-$flavor-$methods)
 (defmacro compile-$flavor-$methods (&rest flavors)    
- `(eval-when (load)
+ `(eval-when (:load-toplevel)
     (combine-class-methods ,@flavors)))
 
 ;;; ------------------------------------------------------------------
