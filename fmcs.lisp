@@ -6,3 +6,8 @@
 (provide :fmcs)
 
 (pushnew :fmcs *features*)
+
+;; Restore standard readtable for SBCL
+
+#+sbcl
+(named-readtables:in-readtable :standard)

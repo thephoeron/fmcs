@@ -21,7 +21,7 @@
   :bug-tracker "https://github.com/thephoeron/fmcs/issues"
   :license "MIT"
   :version (:read-file-form "VERSION")
-  :depends-on ()
+  :depends-on ((:feature :sbcl fare-quasiquote-extras))
   :serial t
   :components ((:file "package")
                (:file "core")

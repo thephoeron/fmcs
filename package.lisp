@@ -38,3 +38,10 @@
            #:mcs-trace
            #:mcs-untrace
            #:mcs-is-traced))
+
+(in-package :fmcs)
+
+;; Switch to the FARE-QUASIQUOTE readtable on SBCL
+
+#+sbcl
+(named-readtables:in-readtable :fare-quasiquote)
