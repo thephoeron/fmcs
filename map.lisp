@@ -3,7 +3,7 @@
 (in-package :fmcs)
 
 ;;           Copyright  1989, 1988, 1987, 1986, 1985 and 1984    BY
-;;           G M D  
+;;           G M D
 ;;           Postfach 1240
 ;;           D-5205 St. Augustin
 ;;           FRG
@@ -14,6 +14,9 @@
 ;; Abbildung auf das zugrundeliegende Flavor System MCS
 ;;
 
+#+sbcl
+(named-readtables:in-readtable :fare-quasiquote)
+
 ;;;(export 'self)
 
 (defvar flavor-class nil)
@@ -21,7 +24,6 @@
 ;  -------------------------------------------------------------------
 ;   $send self wird durch send-self substituiert
 ;  -------------------------------------------------------------------
-
 
 (defun subst-$send-self (form)
   (cond ((atom form) form)
@@ -34,13 +36,12 @@
            (subst-$send-self (cdr form))))
   form)
 
-
 ;  -------------------------------------------------------------------
 ;   Instanzvariablen werden in Methoden wie freie Variablen referiert
 ;  -------------------------------------------------------------------
 
 (defun SUBLIS-SELECT (a_list tree &optional (test #'eql)
-                             (filter #'(lambda (expr) 
+                             (filter #'(lambda (expr)
                                          (declare (ignore expr))
                                          t)))
   (declare (list a_list))
@@ -54,9 +55,8 @@
         (t ()))
   tree)
 
-(defun COMPILE-SLOT-REFERENCES (slot-names lambda-body
-                                &optional (slot-access-fn 'get-slot))
-    ; (print "in compile-slot-ref.")
+(defun COMPILE-SLOT-REFERENCES (slot-names lambda-body &optional (slot-access-fn 'get-slot))
+  ; (print "in compile-slot-ref.")
   (sublis-select  (mapcar #'(lambda (a_slot)
                               (cons a_slot (list slot-access-fn (list 'quote a_slot))))
                           slot-names)
@@ -87,7 +87,7 @@
       #'(lambda (isit &key (name nil) (supers nil) (own-slots nil)
                       (req-inst-vars nil))
           (send-fast
-           (make-mcsobject 
+           (make-mcsobject
             :env (vector isit name supers nil nil nil own-slots
                          (make-hash-table :test #'eq)
                          nil nil nil req-inst-vars))
@@ -106,13 +106,12 @@
   (send-self :compute-basicnew-fn)
   self)
 
-
 ;;; ------------------------------------------------------------------
 ;;; Definition von Flavors
 ;;; ------------------------------------------------------------------
 
 ;;;(export 'def$flavor)
-(defmacro def$flavor (a_class a_list-of-instance-variables 
+(defmacro def$flavor (a_class a_list-of-instance-variables
                               a_list-of-superclasses &rest options)
   `(progn
      (eval-when (:compile-toplevel)
@@ -120,8 +119,8 @@
        (setq ,a_class
              (funcall (mcs-slot-value flavor-class (index-of-basicnew-fn))
                       flavor-class
-                      :name ',a_class 
-                      :supers (if ',a_list-of-superclasses 
+                      :name ',a_class
+                      :supers (if ',a_list-of-superclasses
                                 (list ,@a_list-of-superclasses)
                                 (list standard-object))
                       :own-slots ',a_list-of-instance-variables
@@ -130,11 +129,11 @@
      ; und die alte version mit let nicht, the lord knows
      (eval-when (:load-toplevel)
        (defvar ,a_class)
-       (setq ,a_class 
+       (setq ,a_class
              (send-fast (funcall (mcs-slot-value flavor-class (index-of-basicnew-fn))
                                  flavor-class
-                                 :name ',a_class 
-                                 :supers (if ',a_list-of-superclasses 
+                                 :name ',a_class
+                                 :supers (if ',a_list-of-superclasses
                                            (list ,@a_list-of-superclasses)
                                            (list standard-object))
                                  :own-slots ',a_list-of-instance-variables
@@ -144,8 +143,8 @@
        (defvar ,a_class)    ; um compiler warnings zu unterdruecken
        (let ((new-class (funcall (mcs-slot-value flavor-class (index-of-basicnew-fn))
                                  flavor-class
-                                 :name ',a_class 
-                                 :supers (if ',a_list-of-superclasses 
+                                 :name ',a_class
+                                 :supers (if ',a_list-of-superclasses
                                            (list ,@a_list-of-superclasses)
                                            (list standard-object))
                                  :own-slots ',a_list-of-instance-variables
@@ -153,7 +152,6 @@
          (if (flavorp ',a_class) 
            (redefine-class ,a_class new-class)
            (setq ,a_class (send-fast new-class :init)))))))
-  
 
 ;;; Waehrend der Entwicklung eines Systems will man Flavors aendern, also
 ;;; redefinieren. Wird ein Flavor redefiniert, so werden entsprechende
@@ -203,14 +201,11 @@
         ,(mapcar #'(lambda (class)
                      (slot-value class 'name))
                  (slot-value subclass 'supers))
-        (:required-instance-variables ,@(slot-value subclass 'req-inst-vars))
-        ))))
+        (:required-instance-variables ,@(slot-value subclass 'req-inst-vars))))))
 
 ;;;(export 'def$frame)
 (defmacro def$frame (name instance-vars components &rest options)
   `(def$flavor ,name ,instance-vars ,components ,@options))
-
-  
 
 ;;; ------------------------------------------------------------------
 ;;; Definition von Methoden
@@ -248,7 +243,7 @@
   `(mcs-is-traced ,flav-name ,selector))
 
 ;;;(export 'compile-$flavor-$methods)
-(defmacro compile-$flavor-$methods (&rest flavors)    
+(defmacro compile-$flavor-$methods (&rest flavors)
  `(eval-when (:load-toplevel)
     (combine-class-methods ,@flavors)))
 
@@ -264,11 +259,10 @@
 ;;;(export 'continue-whopper)
 (defmacro continue-whopper (&rest changed-args)
   (if changed-args
-    `(call-next-method-fn self class-env inst-env mcs%caller mcs%next-methods 
+    `(call-next-method-fn self class-env inst-env mcs%caller mcs%next-methods
                           (list ,@changed-args))
-    `(call-next-method-fn self class-env inst-env mcs%caller mcs%next-methods 
-                          mcs%args)
-    ))
+    `(call-next-method-fn self class-env inst-env mcs%caller mcs%next-methods
+                          mcs%args)))
 
 ;;; ------------------------------------------------------------------
 ;;; Senden von Nachrichten
@@ -292,7 +286,7 @@
 ;;; in case of unknown type specifiers,
 ;;; it may warn you, give an error, or return nil
 ;;; what a horror
- 
+
 ;;;(export 'flavorp)
 (defun flavorp (object)
   (if (and (boundp object)(typep (symbol-value object) 'mcsobject))
@@ -325,7 +319,7 @@
 
 ;;;(export 'get-flavor-instance-slots)
 (defun get-flavor-instance-slots (instance)
-  (remove 'isit (mcs-slot-value (mcs-slot-value instance (index-of-isit)) 
+  (remove 'isit (mcs-slot-value (mcs-slot-value instance (index-of-isit))
                                 (index-of-all-slots))))
 
 ;;;(export 'symbol-value-in-$instance)
@@ -368,6 +362,9 @@
 ;  :operation-handled-p
 ;  :send-if-handles
 ;  :how-combined
+
+#+sbcl
+(named-readtables:in-readtable :standard)
 
 ;; eof
 

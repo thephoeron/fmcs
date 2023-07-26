@@ -2,6 +2,8 @@
 
 (in-package :fmcs)
 
+#+sbcl
+(named-readtables:in-readtable :fare-quasiquote)
 
 ;;; ------------------------------------------------------------------
 ;;; Inheritance methods
@@ -20,23 +22,23 @@
                              :test #'eq))))
 
 (defmethod (standard-class :inherit-slots-with-defaults) ()
-  (let* ((own-slots-specification 
+  (let* ((own-slots-specification
           (mcs-get-slot inst-env (index-of-own-slots)))
          (slots-result (mapcar #'(lambda (el) (if (listp el) (first el) el))
                                own-slots-specification))
-         (defaults-result (mapcar #'(lambda (el) (if (listp el) 
+         (defaults-result (mapcar #'(lambda (el) (if (listp el)
                                                    el
                                                    (list el nil)))
                                   own-slots-specification))
          (components (rest (mcs-get-slot inst-env (index-of-cplist)))))
     (loop
       (if (null components) (return ()))
-      (setq slots-result 
+      (setq slots-result
             (append (mcs-slot-value (first components) (index-of-all-slots))
                     slots-result))
-      (setq defaults-result 
-            (append defaults-result 
-                    (mcs-slot-value (first components) 
+      (setq defaults-result
+            (append defaults-result
+                    (mcs-slot-value (first components)
                                     (index-of-all-slot-defaults))))
       (pop components))
     (setf (mcs-get-slot inst-env  (index-of-all-slots))
@@ -72,10 +74,10 @@
                                   (acons :primary  (cdr fn-pair) ())
                                   :combined-method nil))
          (setq counter (1+ counter))))))
- 
+
 (defmethod (standard-class :compute-slot-accessor-fn) ()
   (setf (mcs-get-slot inst-env (index-of-slot-accessor-fn))
-        (compile 
+        (compile
          nil
          `(lambda (slot)
             (case slot
@@ -96,8 +98,7 @@
 (defmethod (standard-class :extend-subclasses-of-supers) ()
   (dolist (super (mcs-get-slot inst-env (index-of-supers)))
     (setf (mcs-slot-value super (index-of-subclasses))
-          (cons self (mcs-slot-value super (index-of-subclasses)))
-          )))
+          (cons self (mcs-slot-value super (index-of-subclasses))))))
 
 (defmethod (standard-class :compute-basicnew-fn) (&rest keys)
   (let ((key-list (rest (mcs-get-slot inst-env (index-of-all-slots))))
@@ -107,15 +108,15 @@
       (setq key-list keys)
       (setq slot-list (mapcar #'(lambda (slot)
 				  (if (member slot key-list :test #'eq)
-				    slot 
-				    (second (assoc slot keys+defaults 
+				    slot
+				    (second (assoc slot keys+defaults
 						   :test #'eq))))
 			      slot-list))
       (setq keys+defaults (mapcar #'(lambda (key)
 				      (assoc key keys+defaults :test #'eq))
 				  key-list)))
     (setf (mcs-get-slot inst-env (index-of-basicnew-fn))
-	  (compile nil 
+	  (compile nil
 		   `(lambda (isit &key ,@keys+defaults)
 		      (send-fast
 			(make-mcsobject
@@ -127,23 +128,21 @@
   (setf (mcs-get-slot inst-env (index-of-cplist))
         (send-self :inheritance-algorithm)))
 
-
 (defmethod (standard-class :inheritance-algorithm) ()
   (labels
     ((traverse-node (a_class result)
-                      (if (member a_class result :test #'eq) 
+                      (if (member a_class result :test #'eq)
                         result
-                        (cons a_class 
-                              (traverse-list 
-                               (reverse (mcs-slot-value a_class 
+                        (cons a_class
+                              (traverse-list
+                               (reverse (mcs-slot-value a_class
                                                         (index-of-supers)))
-                               result))
-                        ))
+                               result))))
      (traverse-list (r-supers result)
-                    (if (null r-supers) 
+                    (if (null r-supers)
                       result
-                      (traverse-list 
-                       (rest r-supers) 
+                      (traverse-list
+                       (rest r-supers)
                        (traverse-node (first r-supers) result))
                       )))
     (cons self
@@ -161,12 +160,12 @@
 (defmethod (standard-object :class-name) ()
   (mcs-get-slot class-env (index-of-name)))
 
-(defmethod (standard-object :class-p) () 
+(defmethod (standard-object :class-p) ()
   (if (member 'supers (get-class-slot 'all-slots) :test #'eq)
     t nil))
 
-(defmethod (standard-object :metaclass-p) () 
-  (if (and (member 'cplist (get-class-slot 'all-slots) :test #'eq) 
+(defmethod (standard-object :metaclass-p) ()
+  (if (and (member 'cplist (get-class-slot 'all-slots) :test #'eq)
            (member standard-class (mcs-get-slot inst-env (index-of-cplist))
                    :test #'eq))
     t))
@@ -175,7 +174,7 @@
   (send-self :error-handler (first message)))
 
 (defmethod (standard-object :error-handler) (selector)
-  (error "~S can not handle this message: ~S" 
+  (error "~S can not handle this message: ~S"
          (mcs-get-slot class-env (index-of-name)) selector))
 
 (defmethod (standard-object :operation-handled-p) (operation)
@@ -195,8 +194,7 @@
           (return (standard-message-handler self class-env inst-env operation
                                             arguments)))))))
 
+#+sbcl
+(named-readtables:in-readtable :standard)
+
 ;; eof
-
-
-
-

@@ -13,18 +13,18 @@
            #:call-next-method)
   (:export #:*redefine-warnings*
            #:self
-           #:$slot 
+           #:$slot
            #:def$flavor
            #:def$method
-           #:undef$method 
+           #:undef$method
            #:def$frame
            #:def$behavior
            #:trace$method
            #:untrace$method
            #:is-traced$method
-           #:compile-$flavor-$methods 
+           #:compile-$flavor-$methods
            #:defwhopper
-           #:continue-whopper 
+           #:continue-whopper
            #:$send
            #:lexpr-$send
            #:flavorp
@@ -32,7 +32,7 @@
            #:flavor-typep
            #:flavor-type-of
            #:get-flavor-instance-slots
-           #:symbol-value-in-$instance 
+           #:symbol-value-in-$instance
            #:make-$instance
            #:make-window-or-instance
            #:mcs-trace
@@ -40,8 +40,3 @@
            #:mcs-is-traced))
 
 (in-package :fmcs)
-
-;; Switch to the FARE-QUASIQUOTE readtable on SBCL
-
-#+sbcl
-(named-readtables:in-readtable :fare-quasiquote)
