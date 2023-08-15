@@ -8,6 +8,7 @@ The following tasks are required to complete the restoration of FMCS:
 
 - [x] Extract FMCS from BABYLON
 - [x] Clean up original source-code
+- [x] Translate German comments to English
 - [ ] Restore and update original documentation
 - [ ] Generate API Documentation in Markdown format
 - [ ] Generate unit tests

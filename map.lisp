@@ -11,7 +11,7 @@
 ;; Authors:  Harry Bretthauer, Eckehard Gross, Juergen Kopp, Juergen Walther
 
 ;;
-;; Abbildung auf das zugrundeliegende Flavor System MCS
+;; Mapping to the underlying Flavor System MCS
 ;;
 
 #+sbcl
@@ -22,7 +22,7 @@
 (defvar flavor-class nil)
 
 ;  -------------------------------------------------------------------
-;   $send self wird durch send-self substituiert
+;   $send self is substituted by send-self
 ;  -------------------------------------------------------------------
 
 (defun subst-$send-self (form)
@@ -37,7 +37,7 @@
   form)
 
 ;  -------------------------------------------------------------------
-;   Instanzvariablen werden in Methoden wie freie Variablen referiert
+;   Instance variables are referred to in methods like free variables
 ;  -------------------------------------------------------------------
 
 (defun SUBLIS-SELECT (a_list tree &optional (test #'eql)
@@ -107,7 +107,7 @@
   self)
 
 ;;; ------------------------------------------------------------------
-;;; Definition von Flavors
+;;; Definition forms for Flavors
 ;;; ------------------------------------------------------------------
 
 ;;;(export 'def$flavor)
@@ -115,7 +115,7 @@
                               a_list-of-superclasses &rest options)
   `(progn
      (eval-when (:compile-toplevel)
-       (defvar ,a_class)    ; um compiler warnings zu unterdruecken
+       (defvar ,a_class)    ; to suppress compiler warnings
        (setq ,a_class
              (funcall (mcs-slot-value flavor-class (index-of-basicnew-fn))
                       flavor-class
@@ -125,8 +125,8 @@
                                 (list standard-object))
                       :own-slots ',a_list-of-instance-variables
                       :req-inst-vars ',(required-instance-variables options))))
-     ; warum das im kontext von def-kb-konfiguration in gclisp komilierbar ist
-     ; und die alte version mit let nicht, the lord knows
+     ; why this is compilable in the context of def-kb-configuration in GCLisp
+     ; and the old version with let is not, the lord knows
      (eval-when (:load-toplevel)
        (defvar ,a_class)
        (setq ,a_class
@@ -140,7 +140,7 @@
                                  :req-inst-vars ',(required-instance-variables options))
                         :init)))
      (eval-when (:execute)
-       (defvar ,a_class)    ; um compiler warnings zu unterdruecken
+       (defvar ,a_class)    ; to suppress compiler warnings
        (let ((new-class (funcall (mcs-slot-value flavor-class (index-of-basicnew-fn))
                                  flavor-class
                                  :name ',a_class
@@ -149,22 +149,22 @@
                                            (list standard-object))
                                  :own-slots ',a_list-of-instance-variables
                                  :req-inst-vars ',(required-instance-variables options))))
-         (if (flavorp ',a_class) 
+         (if (flavorp ',a_class)
            (redefine-class ,a_class new-class)
            (setq ,a_class (send-fast new-class :init)))))))
 
-;;; Waehrend der Entwicklung eines Systems will man Flavors aendern, also
-;;; redefinieren. Wird ein Flavor redefiniert, so werden entsprechende
-;;; Teile der Vererbungshierarchie dem neuen Stand angepasst.
+;;; During the development of a system, it is often necessary to change or
+;;; redefine Flavors. When a Flavor is redefined, corresponding parts of the
+;;; inheritance hierarchy must be adapted to the new state.
 
-;;; Das heisst:  - das Flavor muss aus den Subklassenlisten ihrer
-;;;                ehemaligen Superklassen entfernt werden;
-;;;              - die ehemaligen Subklassen des Flavor muessen redefiniert werden.
+;;; This means that:
+;;; - the Flavor must be removed from the subclass lists of its former
+;;;   superclasses
+;;; - and the former subclasses of the Flavor must be redefined.
 
-;;; Die Instanzen von geaenderten Flavors bleiben unveraendert, muessen also
-;;; vom Programmierer selbst neu erzeugt werden, d.h. Programmteile, die Instanzen
-;;; erzeugen bzw. verwenden muessen neu ausgewertet werden.
-;;; Deswegen wird eine entsprechende Warnung an den Benutzer ausgegeben!
+;;; Instances of changed Flavors remain unchanged and must be recreated by the
+;;; programmer. This means that program parts that create or use instances must
+;;; be re-evaluated. Therefore, a corresponding warning is issued to the user!
 
 ;;;(export '*redefine-warnings*)
 (defvar *redefine-warnings* nil)
@@ -208,7 +208,7 @@
   `(def$flavor ,name ,instance-vars ,components ,@options))
 
 ;;; ------------------------------------------------------------------
-;;; Definition von Methoden
+;;; Definition forms for Demon Methods, Behaviors, and Tracing Macros
 ;;; ------------------------------------------------------------------
 
 ;;;(export 'def$method)
@@ -265,7 +265,7 @@
                           mcs%args)))
 
 ;;; ------------------------------------------------------------------
-;;; Senden von Nachrichten
+;;; Sending messages
 ;;; ------------------------------------------------------------------
 
 ; (send-message (object selector &rest message)     is provided by mcs
@@ -279,7 +279,7 @@
   `(apply #'send-message ,object ,message ,@args))
 
 ;;; ------------------------------------------------------------------
-;;; Funktionen bzw. Makros fuer Flavors und Instanzen
+;;; Functions and macros for flavors and instances
 ;;; ------------------------------------------------------------------
 
 ;;; the typep function of different lisp implementations behave differently
@@ -331,7 +331,7 @@
     `(get-slot ,slot-name))
 
 ;;; ------------------------------------------------------------------
-;;; Definition von Flavorinstanzen
+;;; Definition forms for Flavor Instances
 ;;; ------------------------------------------------------------------
 
 ;; (defmacro make-$instance (flavor &rest init-plist)
@@ -351,10 +351,10 @@
 
 
 ;;; -------------------------------------------------------------------
-;;; Methoden fuer alle Instanzen
+;;; Demon Methods for all Flavor Instances
 ;;; -------------------------------------------------------------------
 
-;;; sind vorhanden in mcs
+;;; are defined in the file `util.lisp` for FMCS STANDARD-OBJECT
 
 ;  :describe
 ;  :which-operations
@@ -367,4 +367,3 @@
 (named-readtables:in-readtable :standard)
 
 ;; eof
-
