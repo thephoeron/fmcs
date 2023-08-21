@@ -42,6 +42,6 @@
   :version (:read-file-form "VERSION")
   :depends-on (fmcs)
   :serial t
-  :components ((:module "_test"
+  :components ((:module "test"
                 :components ((:file "package")
                              (:file "suite")))))
