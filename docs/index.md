@@ -1,5 +1,7 @@
 # Flavors Meta-Class System (FMCS): User Manual
 
+> :warning: **This is a work in progress.** The documentation is being restored and updated from the original sources according to the functionality and direction of the restoration and extension of functionality. Please check back later for updates.
+
 This manual describes the Flavors Meta-Class System (FMCS) for _Demonic Metaprogramming_
 in Common Lisp, an alternative to CLOS+MOP. It has been restored from the
 [CMU AI Repository][CMUAIREPO] alongside Jürgen Walther's [BABYLON][BABYLON] AI
