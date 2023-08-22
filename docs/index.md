@@ -1,11 +1,13 @@
 # Flavors Meta-Class System (FMCS): User Manual
 
-> :warning: **This is a work in progress.** The documentation is being restored and updated from the original sources according to the functionality and direction of the restoration and extension of functionality. Please check back later for updates.
+> :warning: **This is a work in progress.** The documentation is being restored
+> and updated from the original sources. Please check back later for updates.
 
-This manual describes the Flavors Meta-Class System (FMCS) for _Demonic Metaprogramming_
-in Common Lisp, an alternative to CLOS+MOP. It has been restored from the
-[CMU AI Repository][CMUAIREPO] alongside Jürgen Walther's [BABYLON][BABYLON] AI
-Workbench system, from which the sources of FMCS were extracted as a standalone library.
+This manual describes the Flavors Meta-Class System (FMCS) for
+_Demonic Metaprogramming_ in Common Lisp, an alternative to CLOS+MOP. It has
+been restored from the [CMU AI Repository][CMUAIREPO] alongside Jürgen
+Walther's [BABYLON][BABYLON] AI Workbench system, from which the sources of
+FMCS were extracted as a standalone library.
 
 - [Overview](./overview.md)
 - [Basic Usage](./basic-usage.md)
@@ -61,5 +63,29 @@ Workbench system, from which the sources of FMCS were extracted as a standalone 
     - [Functions](./api-reference.md#functions)
     - [Special Variables](./api-reference.md#special-variables)
 
+## Authors
+
+- ["the Phoeron" Colin J.E. Lupton][@thephoeron]
+- Jürgen Walther
+
+Including contributions by, and code based on the work of:
+
+- Pierre Cointe
+- Thomas Christaller
+- Harry Bretthauer
+- Eckehard Gross
+- Jürgen Kopp
+
+## License
+
+Copyright &copy; 1984&ndash;2023, the Authors. Restrored from the CMU AI Repository and released under the MIT License. Please see the [LICENSE](LICENSE) file for details.
+
+> **Restoration Note:** as explicitly noted in the original source-code, FMCS
+> was released by Jürgen Walthers under similar terms as the X Windows System,
+> X11, and the MIT License is the closest modern, standardized FOSS equivalent.
+
+[BABYLON]: https://github.com/thephoeron/babylon
+[BAPHOMET]: https://github.com/thephoeron/baphomet
 [CMUAIREPO]: https://www.cs.cmu.edu/afs/cs.cmu.edu/project/ai-repository/ai/0.html
-[BABYLON]: https://thephoeron.github.io/babylon/
+[@thephoeron]: https://github.com/thephoeron
+
