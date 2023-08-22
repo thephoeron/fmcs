@@ -13,12 +13,6 @@ The following tasks are required to complete the restoration of FMCS:
 - [ ] Generate API Documentation in Markdown format
 - [ ] Generate unit tests
 
-While the following tasks are to support extended features:
-
-- [ ] Integrate with [BAPHOMET][]
-- [ ] Replace hand-coded STANDARD-CLASS object with Hyperlattice implementation
-- [ ] Rewrite low-level definitions as Hyperlattice operations
-
 ## Demonic Metaprogramming
 
 TODO: give a brief overview of Demonic Metaprogramming, and how it differs from the MOP, covering the following topics:
@@ -90,7 +84,7 @@ Including contributions by, and code based on the work of:
 
 ## License
 
-Copyright &copy; 1987&ndash;2023, the Authors. Restrored from the CMU AI Repository and released under the MIT License. Please see the [LICENSE](LICENSE) file for details.
+Copyright &copy; 1984&ndash;2023, the Authors. Restrored from the CMU AI Repository and released under the MIT License. Please see the [LICENSE](LICENSE) file for details.
 
 > **Restoration Note:** as explicitly noted in the original source-code, FMCS
 > was released by Jürgen Walthers under similar terms as the X Windows System,
